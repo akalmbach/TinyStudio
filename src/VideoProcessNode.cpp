@@ -14,11 +14,12 @@ VideoProcessNode::VideoProcessNode(string name)
 
 Mat VideoProcessNode::nextFrame(void)
 {
+    cout << "Warning, this should probably be overriden!" << endl;
     // Returns an empty Mat if all children are finished
     Mat from_child, next;
     for (uint i = 0; i < children.size(); i++)
     {
-        from_child = children[i].nextFrame();
+        from_child = children[i]->nextFrame();
         if (from_child.empty())
             children.erase(children.begin()+i);
         else

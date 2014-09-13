@@ -10,6 +10,8 @@ find_package( OpenCV REQUIRED )
 
 set(TINYSTUDIO_SOURCES "${PROJECT_SOURCE_DIR}/src/TinyStudio.cpp"
                         "${PROJECT_SOURCE_DIR}/src/VideoProcessNode.cpp"
+			"${PROJECT_SOURCE_DIR}/src/VideoSource.cpp"
+			"${PROJECT_SOURCE_DIR}/src/VideoSink.cpp"
 )
 
 

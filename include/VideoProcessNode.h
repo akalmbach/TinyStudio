@@ -13,9 +13,8 @@ class VideoProcessNode {
     virtual Mat nextFrame(void);
     virtual void createSliders(string window_name);
     string name;
-    
-  private:
-    vector<VideoProcessNode> children;
+    vector<VideoProcessNode *> children;
+
 };
 
 #endif // VIDEOPROCESSNODE
