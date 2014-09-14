@@ -40,7 +40,7 @@ VideoSource::VideoSource(string name, string filename, int loops,
 Mat VideoSource::nextFrame(void)
 {
     Mat next_frame;
-    //cout << name << ": current time: " << current_time;
+    cout << name << ": current time: " << current_time << endl;
     double step_time = speed/source_fps;
     //cout << ", step time: " << step_time << endl;
     if (end > start)

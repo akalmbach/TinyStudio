@@ -1,8 +1,15 @@
-<video name="sink" filename="test.avi" cols="192" rows="108">
-    <source name="source1" filename="/home/arnold/Desktop/in.mp4"
-            start="0" end="20" rate="2" loops="0"/>
-    <source name="source2" filename="/home/arnold/Desktop/in.mp4"
+<video name="sink" filename="test.avi" cols="1920" rows="1080">
+    <splice name="splice1">
+        <source name="source1" filename="/home/arnold/Desktop/in.mp4"
+            start="20" end="0" rate="2" loops="0"/>
+        <source name="source2" filename="/home/arnold/Desktop/in.mp4"
+            start
+            ="0" end="20" rate="2" loops="0"/>
+    </splice> 
+    <splice name="splice2">
+        <source name="source3" filename="/home/arnold/Desktop/in.mp4"
+            start="20" end="0" rate="4" loops="1"/>
+        <source name="source4" filename="/home/arnold/Desktop/in.mp4"
             start="0" end="20" rate="4" loops="1"/>
-    <source name="source3" filename="/home/arnold/Desktop/in.mp4"
-            start="0" end="20" rate="8" loops="2"/>
+    </splice> 
 </video>

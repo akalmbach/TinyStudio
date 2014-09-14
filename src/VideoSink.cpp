@@ -15,19 +15,6 @@ VideoSink::VideoSink(string name, string filename,
     size = Size(cols, rows);
 }
 
-void VideoSink::setSizeFromSmallest(void) {
-    int smallest_rows = -1;
-    int smallest_cols = -1;
-    for (uint i = 0; i < children.size(); i++) {
-        Mat init_frame = children[i]->nextFrame();
-        if (smallest_rows <= 0 || init_frame.rows < smallest_rows)
-            smallest_rows = init_frame.rows;
-        if (smallest_cols <= 0 || init_frame.cols < smallest_cols)
-            smallest_cols = init_frame.cols;
-    }
-    size = Size(smallest_cols, smallest_rows);
-}
-
 Mat VideoSink::nextFrame(void)
 {
     if (size.height <= 0 || size.width <= 0) {

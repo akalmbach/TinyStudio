@@ -4,6 +4,7 @@
 
 #include "VideoSource.h"
 #include "VideoSink.h"
+#include "VideoSplice.h"
 
 #include "pugixml.hpp"
 
@@ -11,6 +12,14 @@
 
 using namespace std;
 using namespace cv;
+
+VideoSplice * createSpliceFromXMLNode(pugi::xml_node& xml_node)
+{
+    cout << "Creating a splice" << endl;
+    string name = xml_node.attribute("name").as_string();
+    VideoSplice *splice_node = new VideoSplice(name);
+    return splice_node;
+}
 
 VideoSink * createSinkFromXMLNode(pugi::xml_node& xml_node)
 {
@@ -50,7 +59,11 @@ VideoProcessNode * recurse_buildVideoProcessTree(pugi::xml_node& xml_node)
     else if (video_node_type == "source")
     {
         video_node = createSourceFromXMLNode(xml_node);
-    } //....//
+    }
+    else if (video_node_type == "splice")
+    {
+        video_node = createSpliceFromXMLNode(xml_node);
+    }    //....//
     else
     {
         cout << "Warning. Something went wrong while parsing XML" << endl;
@@ -89,7 +102,7 @@ int main(int argc, char *argv[]){
     while (!next.empty()){
         imshow("test", next);
         next = root_video_node->nextFrame();
-        //waitKey(5);
+        waitKey(5);
     }
 
     return 0;

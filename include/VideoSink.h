@@ -18,10 +18,6 @@ class VideoSink : public VideoProcessNode {
     string name;
     string filename;
     VideoWriter writer;
-    
-  private:
-    void setSizeFromSmallest(void);
-    Size size;
 };
 
 #endif // VIDEOSOURCE

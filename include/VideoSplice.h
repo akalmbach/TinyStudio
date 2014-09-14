@@ -3,26 +3,24 @@
 
 #include "VideoProcessNode.h"
 
-#ifndef VIDEOSINK
-#define VIDEOSINK
+#ifndef VIDEOSPLICE
+#define VIDEOSPLICE
 
 using namespace std;
 using namespace cv;
 
-class VideoSink : public VideoProcessNode {
+class VideoSplice : public VideoProcessNode {
   public:
-    VideoSink(string name, string filename, int rows, int cols);
+    VideoSplice(string name);
     Mat nextFrame(void);
     void createSliders(string window_name);
-    
     string name;
-    string filename;
-    VideoWriter writer;
-    
-  private:
-    void setSizeFromSmallest(void);
-    Size size;
+
+  private:    
+    int frame_no;
+    int pattern_length;
+    vector<int> burst_sizes;
 };
 
-#endif // VIDEOSOURCE
+#endif // VIDEOSPLICE
 

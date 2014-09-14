@@ -14,15 +14,16 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/pugixml)
 
 set(TINYSTUDIO_SOURCES "${PROJECT_SOURCE_DIR}/src/TinyStudio.cpp"
                         "${PROJECT_SOURCE_DIR}/src/VideoProcessNode.cpp"
-			"${PROJECT_SOURCE_DIR}/src/VideoSource.cpp"
-			"${PROJECT_SOURCE_DIR}/src/VideoSink.cpp"
+                        "${PROJECT_SOURCE_DIR}/src/VideoSource.cpp"
+                        "${PROJECT_SOURCE_DIR}/src/VideoSink.cpp"
+                        "${PROJECT_SOURCE_DIR}/src/VideoSplice.cpp"
 )
 
 
 include_directories(${OpenCV_INCLUDE_DIRS}
                     ${PROJECT_INCLUDE_DIR}
                     ${PROJECT_SOURCE_DIR}
-		    ${PROJECT_SOURCE_DIR}/pugixml/src
+                    ${PROJECT_SOURCE_DIR}/pugixml/src
 )
 
 link_directories(${CMAKE_BINARY_DIR})

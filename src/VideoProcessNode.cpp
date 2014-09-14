@@ -28,6 +28,26 @@ Mat VideoProcessNode::nextFrame(void)
     return next;
 }
 
+void VideoProcessNode::setSizeFromSmallest(void) {
+    int smallest_rows = -1;
+    int smallest_cols = -1;
+    for (uint i = 0; i < children.size(); i++) {
+        Mat init_frame = children[i]->nextFrame();
+        if (!init_frame.empty())
+        {
+            if (smallest_rows <= 0 || init_frame.rows < smallest_rows)
+            {
+                smallest_rows = init_frame.rows;
+            }
+            if (smallest_cols <= 0 || init_frame.cols < smallest_cols)
+            {
+                smallest_cols = init_frame.cols;
+            }
+        }
+    }
+    size = Size(smallest_cols, smallest_rows);
+}
+
 void VideoProcessNode::createSliders(string window_name)
 {
     cout << "No sliders defined for VideoProcessNode name=" << name << endl;

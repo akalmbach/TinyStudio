@@ -14,6 +14,10 @@ class VideoProcessNode {
     virtual void createSliders(string window_name);
     string name;
     vector<VideoProcessNode *> children;
+    
+  protected:
+    void setSizeFromSmallest(void);
+    Size size;
 
 };
 
