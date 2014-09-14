@@ -7,14 +7,16 @@
 using namespace std;
 using namespace cv;
 
-VideoSource::VideoSource(string name, string filename,
+VideoSource::VideoSource(string name, string filename, int loops,
                          double start, double end, double speed,
                          double sink_fps) : VideoProcessNode(name)
 {
+    this->loops = loops;
     this->filename = filename;
     this->start = start;
     this->end = end;
     this->speed = speed;
+    this->name = name;
     
     current_time = start;
     
@@ -28,25 +30,40 @@ VideoSource::VideoSource(string name, string filename,
     if (num_source_frames <= 0 or num_source_frames != num_source_frames)
         source_fps = -1;
     this->sink_fps = sink_fps;
+    
+    cout << "Created VideoSource (name=" << name;
+    cout << ", filename=" << filename;
+    cout << ", speed*[start, end]=" << speed << "*" << start << ", " << end;
+    cout << endl;
 }
 
 Mat VideoSource::nextFrame(void)
 {
     Mat next_frame;
-    //cout << "current time: " << current_time << endl;
+    //cout << name << ": current time: " << current_time;
     double step_time = speed/source_fps;
-    //cout << "step time: " << step_time << endl;
+    //cout << ", step time: " << step_time << endl;
     if (end > start)
     {
         current_time += step_time;
         if (current_time >= end)
-            return next_frame;
+            if (loops > 0) {
+                current_time = start;
+                loops--;
+            }
+            else
+                return next_frame;
     }
     else
     {   
         current_time -= step_time;
         if (current_time <= end)
-            return next_frame;
+            if (loops > 0) {
+                current_time = start;
+                loops--;
+            }
+            else
+                return next_frame;
     }
 
 

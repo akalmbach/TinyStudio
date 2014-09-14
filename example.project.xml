@@ -1,31 +1,8 @@
-<video size_x="1920" size_y="1080">
-    <!-- Define a video sequence -->
-    <!-- Names should be filesystem safe! -->
-    <sequence name="main_sequence">
-        <!-- Load a file -->
-        <source file="home/arnold/videos/test1.avi" start="2" end="16"/>
-        
-        <!-- Splice 2 files together -->
-        <!-- burst_size is the number of frames at a time from each
-             input. The number of frames to skip is determined by the 
-             duration, so that each input gets to its end at the end of
-             the splice -->
-        <splice duration="30" vid1_burst_size="1" vid2_burst_size="1" name="main_splice">
-            <source file="home/arnold/videos/test2.avi" start="2" end="32"/>
-    
-            <!--Show two videos side by side -->
-            <split duration="26" x1="0" y1="0" x2="100" y2="100" name="inner_split">
-                <source file="home/arnold/videos/test2.avi" start="2" end="32"/>
-                <source file="home/arnold/videos/test3.avi" start="20" end="64"/>
-            </split>
-            
-        </splice>
-        
-        <!-- Maybe do these? -->
-        <inset></inset> <!-- picture in picture type thing -->
-        
-        <geom_transform></geom_transform> <!-- scale, crop -->
-        
-    </sequence>
-    
+<video name="sink" filename="test.avi" cols="192" rows="108">
+    <source name="source1" filename="/home/arnold/Desktop/in.mp4"
+            start="0" end="20" rate="2" loops="0"/>
+    <source name="source2" filename="/home/arnold/Desktop/in.mp4"
+            start="0" end="20" rate="4" loops="1"/>
+    <source name="source3" filename="/home/arnold/Desktop/in.mp4"
+            start="0" end="20" rate="8" loops="2"/>
 </video>

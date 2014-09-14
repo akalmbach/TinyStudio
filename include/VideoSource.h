@@ -11,7 +11,7 @@ using namespace cv;
 
 class VideoSource : public VideoProcessNode {
   public:
-    VideoSource(string name, string filename,
+    VideoSource(string name, string filename, int loops,
             double start, double end, double speed,
             double sink_fps);
     virtual Mat nextFrame(void);
@@ -23,6 +23,7 @@ class VideoSource : public VideoProcessNode {
     
   private:
     double current_time;
+    int loops;
     double start;
     double end;
     double speed;
