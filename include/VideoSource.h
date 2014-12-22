@@ -22,11 +22,12 @@ class VideoSource : public VideoProcessNode {
     VideoCapture cap;
     
   private:
+    void querySliders(void);
     double current_time;
     int loops;
-    double start;
-    double end;
-    double speed;
+    double start; int start_int;
+    double end; int end_int;
+    double speed; int speed_int;
     double source_fps;
     double sink_fps;
     double num_source_frames;

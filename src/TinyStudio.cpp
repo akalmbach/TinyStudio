@@ -5,6 +5,8 @@
 #include "VideoSource.h"
 #include "VideoSink.h"
 #include "VideoSplice.h"
+#include "VideoSplit.h"
+#include "VideoSequence.h"
 
 #include "pugixml.hpp"
 
@@ -12,6 +14,26 @@
 
 using namespace std;
 using namespace cv;
+
+VideoSequence * createSequenceFromXMLNode(pugi::xml_node& xml_node)
+{
+    cout << "Creating a sequence" << endl;
+    string name = xml_node.attribute("name").as_string();
+    VideoSequence *sequence_node = new VideoSequence(name);
+    return sequence_node;
+}
+
+VideoSplit * createSplitFromXMLNode(pugi::xml_node& xml_node)
+{
+    cout << "Creating a split" << endl;
+    string name = xml_node.attribute("name").as_string();
+    double x1 = xml_node.attribute("x1").as_double();
+    double x2 = xml_node.attribute("x2").as_double();
+    double y1 = xml_node.attribute("y1").as_double();
+    double y2 = xml_node.attribute("y2").as_double();
+    VideoSplit *split_node = new VideoSplit(name, x1, y1, x2, y2);
+    return split_node;
+}
 
 VideoSplice * createSpliceFromXMLNode(pugi::xml_node& xml_node)
 {
@@ -63,7 +85,15 @@ VideoProcessNode * recurse_buildVideoProcessTree(pugi::xml_node& xml_node)
     else if (video_node_type == "splice")
     {
         video_node = createSpliceFromXMLNode(xml_node);
-    }    //....//
+    }
+    else if (video_node_type == "split")
+    {
+        video_node = createSplitFromXMLNode(xml_node);
+    }
+    else if (video_node_type == "sequence")
+    {
+        video_node = createSequenceFromXMLNode(xml_node);
+    } //....//
     else
     {
         cout << "Warning. Something went wrong while parsing XML" << endl;
@@ -86,11 +116,15 @@ VideoProcessNode * recurse_buildVideoProcessTree(pugi::xml_node& xml_node)
 int main(int argc, char *argv[]){
     
     pugi::xml_document doc;
-    if (!doc.load_file(argv[1])) return -1;
+    if (!doc.load_file(argv[1]))
+    {   
+        cout << "Please enter a project file" << endl;
+        return -1;
+    }
     
     pugi::xml_node root_xml_node = doc.child("video");
     VideoProcessNode *root_video_node = recurse_buildVideoProcessTree(root_xml_node);
-
+    
     if (root_video_node == 0)
     {
         cout << "Got a null pointer for root video node" << endl;
@@ -98,6 +132,7 @@ int main(int argc, char *argv[]){
     }
         
     Mat next = root_video_node->nextFrame();
+    cout << "Got first frame" << endl;
     namedWindow("test", CV_NORMAL);
     while (!next.empty()){
         imshow("test", next);

@@ -18,6 +18,7 @@ class VideoProcessNode {
   protected:
     void setSizeFromSmallest(void);
     Size size;
+    bool preview;
 
 };
 

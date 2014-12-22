@@ -10,6 +10,7 @@ using namespace cv;
 VideoProcessNode::VideoProcessNode(string name)
 {
     this->name = name;
+    preview = false;
 }
 
 Mat VideoProcessNode::nextFrame(void)
