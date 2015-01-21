@@ -116,10 +116,18 @@ VideoProcessNode * recurse_buildVideoProcessTree(pugi::xml_node& xml_node)
 int main(int argc, char *argv[]){
     
     pugi::xml_document doc;
+    bool interactive = false;
     if (!doc.load_file(argv[1]))
     {   
         cout << "Please enter a project file" << endl;
         return -1;
+    }
+    if (argc > 1)
+    {
+        if (string(argv[2]) == "interactive")
+        {
+            interactive = true;
+        }
     }
     
     pugi::xml_node root_xml_node = doc.child("video");
@@ -130,12 +138,19 @@ int main(int argc, char *argv[]){
         cout << "Got a null pointer for root video node" << endl;
         return -1;
     }
+    
+    if (interactive)
+    {
+        namedWindow("controls", CV_NORMAL);
+        root_video_node->recursiveSetInteractiveMode("controls");
+        waitKey(0);
+    }
         
     Mat next = root_video_node->nextFrame();
     cout << "Got first frame" << endl;
-    namedWindow("test", CV_NORMAL);
+    namedWindow("output", CV_NORMAL);
     while (!next.empty()){
-        imshow("test", next);
+        imshow("output", next);
         next = root_video_node->nextFrame();
         waitKey(5);
     }

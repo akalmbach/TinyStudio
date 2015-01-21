@@ -61,12 +61,14 @@ VideoSource::VideoSource(string name, string filename, int loops,
         source_fps = -1;
     cout << ". Num source frames: " << num_source_frames << endl;
     this->sink_fps = sink_fps;
+    
+    this->speed_int = (int) ((this->speed/MAX_SPEED) * SLIDER_MAX_INT);
 }
 
 Mat VideoSource::nextFrame(void)
 {
     Mat next_frame;
-    cout << name << ": current time: " << current_time << endl;
+    //cout << name << ": current time: " << current_time << endl;
     double step_time = speed/sink_fps;
     //cout << ", step time: " << step_time << endl;
     if (end > start)
@@ -107,8 +109,16 @@ Mat VideoSource::nextFrame(void)
 
 void VideoSource::createSliders(string window_name)
 {
-    createTrackbar(name+"_start", window_name, &start_int, 10000, NULL);
-    createTrackbar(name+"_end", window_name, &end_int, 10000, NULL);
-    createTrackbar(name+"_speed", window_name, &speed_int, 10000, NULL);
+    createTrackbar(name+"_start", window_name, &start_int, SLIDER_MAX_INT, NULL);
+    createTrackbar(name+"_end", window_name, &end_int, SLIDER_MAX_INT, NULL);
+    createTrackbar(name+"_speed", window_name, &speed_int, SLIDER_MAX_INT, &VideoSource::updateSpeed, this);
 }
 
+void VideoSource::updateSpeed(int new_speed, void *usrdata)
+{
+    VideoSource *video_source = (VideoSource *) usrdata;
+    
+    double new_speed_f = (double) (new_speed*MAX_SPEED) / SLIDER_MAX_INT;
+    video_source->speed = new_speed_f;
+    cout << "Set speed to: " << new_speed_f << endl;
+}

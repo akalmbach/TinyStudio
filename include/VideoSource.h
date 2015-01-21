@@ -9,6 +9,8 @@
 using namespace std;
 using namespace cv;
 
+#define MAX_SPEED 4
+
 class VideoSource : public VideoProcessNode {
   public:
     VideoSource(string name, string filename, int loops,
@@ -21,8 +23,10 @@ class VideoSource : public VideoProcessNode {
     string filename;
     VideoCapture cap;
     
+    static void updateSpeed(int new_speed, void *usrdata);
+    
   private:
-    void querySliders(void);
+  
     double current_time;
     int loops;
     double start; int start_int;

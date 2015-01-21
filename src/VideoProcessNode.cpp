@@ -49,6 +49,14 @@ void VideoProcessNode::setSizeFromSmallest(void) {
     size = Size(smallest_cols, smallest_rows);
 }
 
+void VideoProcessNode::recursiveSetInteractiveMode(string window_name)
+{
+    cout << "Creating sliders for " << this->name << endl;
+    this->createSliders(window_name);
+    for (uint i = 0; i < children.size(); i++)
+        children[i]->recursiveSetInteractiveMode(window_name);
+}
+
 void VideoProcessNode::createSliders(string window_name)
 {
     cout << "No sliders defined for VideoProcessNode name=" << name << endl;
