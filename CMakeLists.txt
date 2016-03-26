@@ -19,6 +19,7 @@ set(TINYSTUDIO_SOURCES "${PROJECT_SOURCE_DIR}/src/TinyStudio.cpp"
                         "${PROJECT_SOURCE_DIR}/src/VideoSplice.cpp"
                         "${PROJECT_SOURCE_DIR}/src/VideoSplit.cpp"
                         "${PROJECT_SOURCE_DIR}/src/VideoSequence.cpp"
+                        "${PROJECT_SOURCE_DIR}/src/VideoSketch.cpp"
 )
 
 

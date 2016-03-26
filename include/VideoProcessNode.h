@@ -7,8 +7,6 @@
 using namespace std;
 using namespace cv;
 
-#define SLIDER_MAX_INT 10000
-
 class VideoProcessNode {
   public:
     VideoProcessNode(string name);
@@ -22,6 +20,7 @@ class VideoProcessNode {
     void setSizeFromSmallest(void);
     Size size;
     bool preview;
+    static int max_slider_value;
 
 };
 

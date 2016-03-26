@@ -7,6 +7,8 @@
 using namespace std;
 using namespace cv;
 
+int VideoSource::max_speed = 4;
+
 VideoSource::VideoSource(string name, string filename, int loops,
                          double start, double end, double speed,
                          double sink_fps) : VideoProcessNode(name)
@@ -62,13 +64,14 @@ VideoSource::VideoSource(string name, string filename, int loops,
     cout << ". Num source frames: " << num_source_frames << endl;
     this->sink_fps = sink_fps;
     
-    this->speed_int = (int) ((this->speed/MAX_SPEED) * SLIDER_MAX_INT);
+    this->speed_int = (int) ((this->speed/VideoSource::max_speed) * VideoProcessNode::max_slider_value);
 }
 
 Mat VideoSource::nextFrame(void)
 {
     Mat next_frame;
-    //cout << name << ": current time: " << current_time << endl;
+    cout << name << ": current time/total: " << current_time;
+    cout << "/" << end << endl;
     double step_time = speed/sink_fps;
     //cout << ", step time: " << step_time << endl;
     if (end > start)
@@ -76,7 +79,7 @@ Mat VideoSource::nextFrame(void)
         current_time += step_time;
         if (current_time >= end)
             if (loops > 0) {
-                current_time = start;
+                current_time = (current_time-end)+start;
                 loops--;
             }
             else
@@ -109,16 +112,14 @@ Mat VideoSource::nextFrame(void)
 
 void VideoSource::createSliders(string window_name)
 {
-    createTrackbar(name+"_start", window_name, &start_int, SLIDER_MAX_INT, NULL);
-    createTrackbar(name+"_end", window_name, &end_int, SLIDER_MAX_INT, NULL);
-    createTrackbar(name+"_speed", window_name, &speed_int, SLIDER_MAX_INT, &VideoSource::updateSpeed, this);
+    createTrackbar(name+"_speed", window_name, &speed_int, VideoProcessNode::max_slider_value, &VideoSource::updateSpeed, this);
 }
 
 void VideoSource::updateSpeed(int new_speed, void *usrdata)
 {
     VideoSource *video_source = (VideoSource *) usrdata;
     
-    double new_speed_f = (double) (new_speed*MAX_SPEED) / SLIDER_MAX_INT;
+    double new_speed_f = (double) (new_speed*VideoSource::max_speed) / VideoProcessNode::max_slider_value;
     video_source->speed = new_speed_f;
-    cout << "Set speed to: " << new_speed_f << endl;
+    cout << "Set speed to: " << new_speed_f << "(" << video_source->name << ")" << endl;
 }

@@ -7,6 +7,8 @@
 using namespace std;
 using namespace cv;
 
+int VideoProcessNode::max_slider_value = 1000;
+
 VideoProcessNode::VideoProcessNode(string name)
 {
     this->name = name;

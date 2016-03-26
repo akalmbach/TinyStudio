@@ -7,6 +7,7 @@
 #include "VideoSplice.h"
 #include "VideoSplit.h"
 #include "VideoSequence.h"
+#include "VideoSketch.h"
 
 #include "pugixml.hpp"
 
@@ -21,6 +22,22 @@ VideoSequence * createSequenceFromXMLNode(pugi::xml_node& xml_node)
     string name = xml_node.attribute("name").as_string();
     VideoSequence *sequence_node = new VideoSequence(name);
     return sequence_node;
+}
+
+VideoSketch * createSketchFromXMLNode(pugi::xml_node& xml_node)
+{
+    cout << "Creating a sketch" << endl;
+    string name = xml_node.attribute("name").as_string();
+   
+    int num_pyr_levels = 4;
+    int num_orientations = 9;
+    int max_level_offset = 3;
+    int blob_thresh = 200;
+    int line_thickness = 1;
+    
+    VideoSketch *sketch_node = new VideoSketch(name, num_pyr_levels, num_orientations,
+            max_level_offset, blob_thresh, line_thickness);
+    return sketch_node;
 }
 
 VideoSplit * createSplitFromXMLNode(pugi::xml_node& xml_node)
@@ -93,7 +110,11 @@ VideoProcessNode * recurse_buildVideoProcessTree(pugi::xml_node& xml_node)
     else if (video_node_type == "sequence")
     {
         video_node = createSequenceFromXMLNode(xml_node);
-    } //....//
+    } 
+    else if (video_node_type == "sketch")
+    {
+        video_node = createSketchFromXMLNode(xml_node);
+    }//....//
     else
     {
         cout << "Warning. Something went wrong while parsing XML" << endl;
@@ -117,12 +138,13 @@ int main(int argc, char *argv[]){
     
     pugi::xml_document doc;
     bool interactive = false;
+    cout << argc << endl;
     if (!doc.load_file(argv[1]))
     {   
         cout << "Please enter a project file" << endl;
         return -1;
     }
-    if (argc > 1)
+    if (argc > 2)
     {
         if (string(argv[2]) == "interactive")
         {
@@ -152,7 +174,7 @@ int main(int argc, char *argv[]){
     while (!next.empty()){
         imshow("output", next);
         next = root_video_node->nextFrame();
-        waitKey(5);
+        waitKey(1);
     }
 
     return 0;

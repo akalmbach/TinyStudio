@@ -1,12 +1,24 @@
-<video name="sink" filename="test.avi" cols="1920" rows="1080">
-    <sequence name="root">
-        <source name="loop1" filename="/home/arnold/Videos/Projects/Matrix.avi"
-                        start="630" end="660" rate="1.0" loops="0"/>                   
-        <source name="loop2" filename="/home/arnold/Videos/Projects/Matrix.avi"
-                        start="630" end="660" rate="2.0" loops="0"/>
-        <source name="loop3" filename="/home/arnold/Videos/Projects/Matrix.avi"
-                        start="630" end="660" rate="4.0" loops="0"/>                   
-        <source name="loop4" filename="/home/arnold/Videos/Projects/Matrix.avi"
-                        start="630" end="660" rate="8.0" loops="0"/>                                                                                      
-    </sequence>
+<video name="sink" filename="test.avi" cols="608" rows="256">
+    <splice name="splice">
+        <split name="split1" x1="0.3164" y1="0.0" x2="0.6836" y2="1.0">
+            <source name="raw_source" filename="/home/arnold/Videos/Projects/Matrix.avi"
+                start="544" end="688" rate="2.0" loops="0"/>  
+            <sketch name="test_sketch">
+                <source name="sketch_source" filename="/home/arnold/Videos/Projects/Matrix.avi"
+                    start="544" end="688" rate="2.0" loops="0"/>  
+            </sketch>                                                                                                     
+        </split>
+        
+        <split name="split2" x1="0.3164" y1="0.0" x2="0.6836" y2="1.0">
+            <sketch name="test_sketch_2">
+                <source name="sketch_source_2" filename="/home/arnold/Videos/Projects/Matrix.avi"
+                    start="544" end="688" rate="2.0" loops="0"/>  
+            </sketch>    
+            
+            <source name="raw_source_2" filename="/home/arnold/Videos/Projects/Matrix.avi"
+                start="544" end="688" rate="2.0" loops="0"/>                                                                                                   
+        </split>
+    
+    </splice>
+
 </video>

@@ -1,4 +1,4 @@
-<video name="sink" filename="test.avi" cols="1920" rows="1080">
+<video name="sink" filename="test.avi" cols="608" rows="256">
     <sequence name="topsequence" >
         <splice name="topsplice1">
             <split name="split1" x1="0" y1="0" x2="1.0" y2="1.0">
